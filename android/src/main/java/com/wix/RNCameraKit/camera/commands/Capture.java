@@ -24,6 +24,7 @@ public class Capture implements Command {
             tryTakePicture(promise);
         } catch (Exception e) {
             e.printStackTrace();
+            promise.reject(e);
         }
     }
 
