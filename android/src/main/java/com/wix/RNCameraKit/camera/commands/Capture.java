@@ -32,8 +32,13 @@ public class Capture implements Command {
         CameraViewManager.getCamera().takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                camera.stopPreview();
-                new SaveImageTask(context, promise, saveToCameraRoll).execute(data);
+                try {
+                    camera.stopPreview();
+                    new SaveImageTask(context, promise, saveToCameraRoll).execute(data);
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                    promise.reject(t);
+                }
             }
         });
     }
